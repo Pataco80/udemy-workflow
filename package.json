@@ -1,0 +1,25 @@
+{
+  "name": "udemy-workflow",
+  "version": "1.0.0",
+  "description": "My Web Workflow Whit NPM, SASS, Gulp and more",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pataco80/udemy-workflow.git"
+  },
+  "keywords": [
+    "workflow",
+    "NPM",
+    "SASS",
+    "Gulp"
+  ],
+  "author": "Ricardo Do Vale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pataco80/udemy-workflow/issues"
+  },
+  "homepage": "https://github.com/Pataco80/udemy-workflow#readme"
+}
