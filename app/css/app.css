@@ -4,4 +4,10 @@ body {
 
 body h1 {
   color: white;
+  -webkit-transition: color 3s ease;
+  transition: color 3s ease;
+}
+
+body h1:hover {
+  color: green;
 }
