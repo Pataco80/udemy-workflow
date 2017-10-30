@@ -7,6 +7,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var browserify = require('gulp-browserify');
+var merge = require('merge-stream');
 
 
 // PATHS
@@ -38,10 +39,15 @@ gulp.task('clean-scripts', function(){
 
 // Styles
 gulp.task('sass', function(){
-  return gulp.src(SOURCEPATHS.sassSource)
+  var bootstrapCss = gulp.src('./node_modules/bootstrap/dist/css/bootstrap.css');
+  var sassFiles;
+  
+  sassFiles = gulp.src(SOURCEPATHS.sassSource)
     .pipe(autoprefixer())
     .pipe(sass({outputStyle:'expanded'}).on('error', sass.logError))
-    .pipe(gulp.dest(APPPATHS.css))
+    return merge(bootstrapCss, sassFiles)
+      .pipe(concat('app.css'))
+      .pipe(gulp.dest(APPPATHS.css))
 });
 
 // Scripts
