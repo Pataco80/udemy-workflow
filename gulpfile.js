@@ -7,6 +7,7 @@ var autoprefixer = require('gulp-autoprefixer');
 
 // PATHS
 var SOURCEPATHS = {
+  htmlSource : 'src/*.html',
   sassSource : 'src/scss/*.scss'
 }
 var APPPATHS = {
@@ -27,6 +28,12 @@ gulp.task('sass', function(){
     .pipe(gulp.dest(APPPATHS.css));
 });
 
+// Copy
+gulp.task('copy', function(){
+  gulp.src(SOURCEPATHS.htmlSource)
+  .pipe(gulp.dest(APPPATHS.root));
+});
+
 // Server reload
 gulp.task('serve', ['sass'], function(){
   browserSync.init([APPPATHS.root + '/*.html', APPPATHS.css + '/*.css', APPPATHS.js + '/*.js'],{
@@ -37,8 +44,9 @@ gulp.task('serve', ['sass'], function(){
 });
 
 //Watch
-gulp.task('watch', ['serve', 'sass'], function(){
+gulp.task('watch', ['serve', 'sass', 'copy'], function(){
   gulp.watch([SOURCEPATHS.sassSource], ['sass']);
+  gulp.watch([SOURCEPATHS.htmlSource], ['copy']);
 });
 // Default
 gulp.task('default', ['watch']);
