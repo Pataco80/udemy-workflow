@@ -57,6 +57,24 @@
         </div>
       </div>
     </div>
+    
+    <div class="container">
+      <div class="row">
+        <div id="gallery" class="gallery">
+          
+        </div>
+        <script id="template" type="x-tmpl-mustache">
+          {{#gallery}}
+            <figure class="col-sm-6 col-md-4">
+              <img src="img/{{image}}" alt="" class="thumbnail">
+              <figcaption class="caption">
+                <h3 class="text-center">{{destiny}}</h3>
+              </figcaption>
+            </figure>
+          {{/gallery}}
+        </script>
+      </div>
+    </div>
 
     <script src="js/app.js"></script>
   </body>
