@@ -5,7 +5,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var autoprefixer = require('gulp-autoprefixer');
 var clean = require('gulp-clean');
-
+var concat = require('gulp-concat');
 
 
 // PATHS
@@ -46,6 +46,7 @@ gulp.task('sass', function(){
 // Scripts
 gulp.task('scripts', ['clean-scripts'], function(){
   gulp.src(SOURCEPATHS.jsSource)
+    .pipe(concat('app.js'))
     .pipe(gulp.dest(APPPATHS.js))
 });
 // Copy
