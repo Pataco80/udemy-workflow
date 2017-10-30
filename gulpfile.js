@@ -8,19 +8,23 @@ var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var browserify = require('gulp-browserify');
 var merge = require('merge-stream');
+var newer = require('gulp-newer');
+var imagemin = require('gulp-imagemin');
 
 
 // PATHS
 var SOURCEPATHS = {
   htmlSource : 'src/*.html',
   sassSource : 'src/scss/*.scss',
-  jsSource :   'src/js/**'
+  jsSource :   'src/js/**',
+  imgSource :  'src/img/**'
 }
 var APPPATHS = {
   root :'app/',
   css : 'app/css',
   js :  'app/js',
-  fonts:'app/fonts'
+  fonts:'app/fonts',
+  img : 'app/img'
 }
 
 
@@ -51,11 +55,19 @@ gulp.task('sass', function(){
       .pipe(gulp.dest(APPPATHS.css))
 });
 
+//Images
+gulp.task('images', function(){
+  return gulp.src(SOURCEPATHS.imgSource)
+    .pipe(newer(APPPATHS.img))
+    .pipe(imagemin())
+      .pipe(gulp.dest(APPPATHS.img))
+});
 // Move fonts
 gulp.task('moveFonts', function(){
   gulp.src('./node_modules/bootstrap/dist/fonts/*.{eot,svg,ttf,woff,woff2}')
   .pipe(gulp.dest(APPPATHS.fonts))
 });
+
 // Scripts
 gulp.task('scripts', ['clean-scripts'], function(){
   gulp.src(SOURCEPATHS.jsSource)
@@ -79,10 +91,11 @@ gulp.task('serve', ['sass'], function(){
 });
 
 //Watch
-gulp.task('watch', ['serve', 'clean-html', 'clean-scripts', 'sass', 'scripts', 'moveFonts', 'copy'], function(){
+gulp.task('watch', ['serve', 'clean-html', 'clean-scripts', 'sass', 'scripts', 'images', 'moveFonts', 'copy'], function(){
   gulp.watch([SOURCEPATHS.sassSource], ['sass']);
   gulp.watch([SOURCEPATHS.htmlSource], ['copy']);
   gulp.watch([SOURCEPATHS.jsSource], ['scripts']);
+  gulp.watch([SOURCEPATHS.jsSource], ['images']);
 });
 // Default
 gulp.task('default', ['watch']);
