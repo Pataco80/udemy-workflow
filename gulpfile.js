@@ -10,11 +10,13 @@ var browserify = require('gulp-browserify');
 var merge = require('merge-stream');
 var newer = require('gulp-newer');
 var imagemin = require('gulp-imagemin');
+var injectPartials = require('gulp-inject-partials');
 
 
 // PATHS
 var SOURCEPATHS = {
   htmlSource : 'src/*.html',
+  htmlPartialSource : 'src/partial/*.html',
   sassSource : 'src/scss/*.scss',
   jsSource :   'src/js/**',
   imgSource :  'src/img/**'
@@ -60,7 +62,7 @@ gulp.task('images', function(){
   return gulp.src(SOURCEPATHS.imgSource)
     .pipe(newer(APPPATHS.img))
     .pipe(imagemin())
-      .pipe(gulp.dest(APPPATHS.img))
+    .pipe(gulp.dest(APPPATHS.img))
 });
 // Move fonts
 gulp.task('moveFonts', function(){
@@ -75,11 +77,19 @@ gulp.task('scripts', ['clean-scripts'], function(){
     .pipe(browserify())
     .pipe(gulp.dest(APPPATHS.js))
 });
-// Copy
+
+// Inject Partials
+gulp.task('html', function(){
+  return gulp.src(SOURCEPATHS.htmlSource)
+    .pipe(injectPartials())
+    .pipe(gulp.dest(APPPATHS.root))
+});
+
+/* Copy
 gulp.task('copy', ['clean-html'], function(){
   gulp.src(SOURCEPATHS.htmlSource)
   .pipe(gulp.dest(APPPATHS.root))
-});
+});*/
 
 // Server reload
 gulp.task('serve', ['sass'], function(){
@@ -91,11 +101,12 @@ gulp.task('serve', ['sass'], function(){
 });
 
 //Watch
-gulp.task('watch', ['serve', 'clean-html', 'clean-scripts', 'sass', 'scripts', 'images', 'moveFonts', 'copy'], function(){
+gulp.task('watch', ['serve', 'clean-html', 'clean-scripts', 'html', 'sass', 'scripts', 'images', 'moveFonts'], function(){
   gulp.watch([SOURCEPATHS.sassSource], ['sass']);
-  gulp.watch([SOURCEPATHS.htmlSource], ['copy']);
+  //gulp.watch([SOURCEPATHS.htmlSource], ['copy']);
   gulp.watch([SOURCEPATHS.jsSource], ['scripts']);
   gulp.watch([SOURCEPATHS.jsSource], ['images']);
+  gulp.watch([SOURCEPATHS.htmlSource, SOURCEPATHS.htmlPartialSource], ['html']);
 });
 // Default
 gulp.task('default', ['watch']);
