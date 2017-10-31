@@ -23,24 +23,22 @@ var SOURCEPATHS = {
   htmlPartialSource : 'src/partial/*.html',
   sassSource : 'src/scss/*.scss',
   jsSource :   'src/js/**',
-  imgSource :  'src/img/**',
-  dataSource:  'src/data/**'
+  imgSource :  'src/img/**'
 }
 var APPPATHS = {
   root :'app/',
   css : 'app/css',
   js :  'app/js',
   fonts:'app/fonts',
-  img : 'app/img',
-  data: 'app/data'
+  img : 'app/img'
 }
 
 
 
 // TASKS
 //Clean Html
-gulp.task('clean-data', function(){
-  return gulp.src(APPPATHS.data + '/**', {read:false, force:true})
+gulp.task('clean-html', function(){
+  return gulp.src(APPPATHS.root + '/*.html', {read:false, force:true})
   .pipe(clean())
 });
 
@@ -122,11 +120,11 @@ gulp.task('html', function(){
     .pipe(gulp.dest(APPPATHS.root))
 });
 
-//Copy
-gulp.task('copy-data', ['clean-data'], function(){
-  gulp.src(SOURCEPATHS.dataSource)
-  .pipe(gulp.dest(APPPATHS.data))
-});
+/* Copy
+gulp.task('copy', ['clean-html'], function(){
+  gulp.src(SOURCEPATHS.htmlSource)
+  .pipe(gulp.dest(APPPATHS.root))
+});*/
 
 // Server reload
 gulp.task('serve', ['sass'], function(){
@@ -138,9 +136,9 @@ gulp.task('serve', ['sass'], function(){
 });
 
 //Watch
-gulp.task('watch', ['serve', 'clean-data', 'clean-scripts', 'html', 'sass', 'scripts', 'images', 'moveFonts', 'copy-data'], function(){
+gulp.task('watch', ['serve', 'clean-html', 'clean-scripts', 'html', 'sass', 'scripts', 'images', 'moveFonts'], function(){
   gulp.watch([SOURCEPATHS.sassSource], ['sass']);
-  gulp.watch([SOURCEPATHS.htmlSource], ['copy-data']);
+  //gulp.watch([SOURCEPATHS.htmlSource], ['copy']);
   gulp.watch([SOURCEPATHS.jsSource], ['scripts']);
   gulp.watch([SOURCEPATHS.jsSource], ['images']);
   gulp.watch([SOURCEPATHS.htmlSource, SOURCEPATHS.htmlPartialSource], ['html']);
