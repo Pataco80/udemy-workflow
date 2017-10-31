@@ -6769,3 +6769,7 @@ body h1 {
 body h1:hover {
   color: blue;
 }
+
+#gallery {
+  margin-top: 3rem;
+}
